@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment files (contains secrets)
+.env
+.env.local
+.env.*.local
+
+# Output files
+backend/output/
+backend/public/tiles/
+public/tiles/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# State files
+render_state.json

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>World Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="loading-screen">
+        <div class="loader">
+            <div class="cube"></div>
+            <p>Loading World Data...</p>
+        </div>
+    </div>
+    <div id="map"></div>
+    <div id="ui-layer">
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <h1 data-i18n="map_title"><i class="fa-solid fa-map"></i> Server Map</h1>
+                <div class="header-controls">
+                    <button id="lang-toggle" class="lang-btn">EN</button>
+                    <button id="sidebar-toggle" aria-label="Toggle Sidebar"><i class="fa-solid fa-chevron-left"></i></button>
+                </div>
+            </div>
+            <nav class="sidebar-tabs">
+                <button class="tab-btn active" data-tab="players"><i class="fa-solid fa-users"></i></button>
+                <button class="tab-btn" data-tab="countries"><i class="fa-solid fa-flag"></i></button>
+                <button class="tab-btn" data-tab="layers"><i class="fa-solid fa-layer-group"></i></button>
+                <button class="tab-btn" data-tab="logs"><i class="fa-solid fa-terminal"></i></button>
+            </nav>
+            <div class="sidebar-content">
+                <div id="tab-players" class="tab-pane active">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="search-players" data-i18n-placeholder="search_players" placeholder="Search players...">
+                    </div>
+                    <div class="stats-bar">
+                        <span><span data-i18n="online_count">Online</span>: <strong id="player-count">0</strong></span>
+                    </div>
+                    <ul id="player-list" class="scrollable-list"></ul>
+                </div>
+                <div id="tab-countries" class="tab-pane">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="search-countries" data-i18n-placeholder="search_countries" placeholder="Search countries...">
+                    </div>
+                    <ul id="country-list" class="scrollable-list"></ul>
+                </div>
+                <div id="tab-layers" class="tab-pane">
+                    <div class="settings-group">
+                        <h3 data-i18n="settings_display">Display Settings</h3>
+                        <label class="switch-row">
+                            <span><i class="fa-solid fa-user"></i> <span data-i18n="layer_players">Show Players</span></span>
+                            <input type="checkbox" id="layer-players" checked>
+                            <div class="toggle"></div>
+                        </label>
+                        <label class="switch-row">
+                            <span><i class="fa-solid fa-tag"></i> <span data-i18n="layer_names">Always Show Names</span></span>
+                            <input type="checkbox" id="layer-names" checked>
+                            <div class="toggle"></div>
+                        </label>
+                        <label class="switch-row">
+                            <span><i class="fa-solid fa-flag"></i> <span data-i18n="layer_territories">Territories</span></span>
+                            <input type="checkbox" id="layer-territories" checked>
+                            <div class="toggle"></div>
+                        </label>
+                    </div>
+                    <div class="settings-group">
+                        <h3 data-i18n="settings_info">Info</h3>
+                        <p class="small-text"><span data-i18n="coords_system">Coords System</span>: Minecraft (X, Z)</p>
+                        <p class="small-text"><span data-i18n="updated_realtime">Updated: Realtime</span></p>
+                    </div>
+                </div>
+                <div id="tab-logs" class="tab-pane">
+                    <div class="log-header">
+                        <h3 data-i18n="log_header">Network Logs</h3>
+                        <button id="clear-logs" class="small-btn"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div id="api-logs" class="log-container"></div>
+                </div>
+            </div>
+        </aside>
+        <div id="coord-box" title="Click to copy Map URL">
+            <i class="fa-solid fa-link"></i>
+            <span id="coords-text">X: 0, Z: 0</span>
+        </div>
+        <div id="toast-container"></div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="script.js"></script>
+</body>
+</html>
