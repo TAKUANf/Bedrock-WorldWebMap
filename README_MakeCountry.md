@@ -1,6 +1,6 @@
-# Make a Country 導入ガイド
+# MakeCountry 導入ガイド
 
-このドキュメントでは、Web Map Systemを**「Make a Country」アドオンのプラグインとして統合する手順**を説明します。
+このドキュメントでは、Web Map Systemを**「MakeCountry」アドオンのプラグインとして統合する手順**を説明します。
 この手順を行うことで、Webマップ上に**国家の領土、国旗、詳細情報**が表示されるようになります。
 
 ※ バックエンドサーバーの構築やBDSの設定（permissions.json等）は、通常の [README.md](./README.md) を参照して完了させておいてください。
@@ -9,7 +9,7 @@
 
 ## 📂 1. ファイルの配置
 
-Make a Country アドオンのスクリプトフォルダ内に、本システムのファイルを配置します。
+MakeCountry アドオンのスクリプトフォルダ内に、本システムのファイルを配置します。
 
 1.  `MakeCountry/scripts/` 内に新しいフォルダ（例: `plugins/web_map`）を作成します。
 2.  本システムの `addon/scripts/` 直下にある**全てのファイル**（`main.js`, `sync.js`, `config.js`, `util.js`, `logger.js`, `state.js`）を、作成したフォルダにコピーします。
@@ -48,7 +48,7 @@ import("./plugins/web_map/sync.js");
 
 ### manifest.json の確認・編集
 
-Make a Country が外部通信を行えるように依存関係を追加します。
+MakeCountry が外部通信を行えるように依存関係を追加します。
 `MakeCountry/manifest.json` を開き、`dependencies` に `@minecraft/server-net` があるか確認し、なければ追加してください。
 
 ```json
