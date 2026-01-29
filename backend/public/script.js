@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const TILE_SIZE = 512;
-    const MIN_NATIVE_ZOOM = -5;
+    const MIN_NATIVE_ZOOM = -8;
     const MAX_NATIVE_ZOOM = 0;
     const MIN_ZOOM_CLIENT = -8;
     const MAX_ZOOM_CLIENT = 2;
