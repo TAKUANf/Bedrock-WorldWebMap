@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const TILE_SIZE = 512;
-    const MIN_NATIVE_ZOOM = -8;
+    const MIN_NATIVE_ZOOM = -5;
     const MAX_NATIVE_ZOOM = 0;
     const MIN_ZOOM_CLIENT = -8;
     const MAX_ZOOM_CLIENT = 2;
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addLogEntry(method, url, status, timeMs, isError) {
         const container = document.getElementById('api-logs');
-        if(!container) return;
+        if (!container) return;
         const el = document.createElement('div');
         el.className = `log-entry ${isError ? 'error' : 'success'}`;
         let displayUrl = url.replace(window.location.origin, '');
@@ -139,16 +139,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const clearLogsBtn = document.getElementById('clear-logs');
-    if(clearLogsBtn) {
+    if (clearLogsBtn) {
         clearLogsBtn.addEventListener('click', () => {
             const c = document.getElementById('api-logs');
-            if(c) c.innerHTML = '';
+            if (c) c.innerHTML = '';
         });
     }
 
     const LogTileLayer = L.TileLayer.extend({
-        getTileUrl: function(coords) { return `/tiles/overworld/${coords.z}/${coords.x}/${coords.y}.png`; },
-        createTile: function(coords, done) {
+        getTileUrl: function (coords) { return `/tiles/overworld/${coords.z}/${coords.x}/${coords.y}.png`; },
+        createTile: function (coords, done) {
             const tile = document.createElement('img');
             L.DomEvent.on(tile, 'load', L.Util.bind(this._tileOnLoad, this, done, tile));
             L.DomEvent.on(tile, 'error', L.Util.bind(this._tileOnError, this, done, tile));
@@ -158,14 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const start = performance.now();
             const onLoaded = () => { addLogEntry('IMG', tile.src, 200, (performance.now() - start).toFixed(0), false); };
             const onError = () => { addLogEntry('IMG', tile.src, '404', (performance.now() - start).toFixed(0), true); };
-            tile.addEventListener('load', onLoaded, {once:true});
-            tile.addEventListener('error', onError, {once:true});
+            tile.addEventListener('load', onLoaded, { once: true });
+            tile.addEventListener('error', onError, { once: true });
             return tile;
         }
     });
 
     const mcColorMap = { black: '#1D1D21', red: '#B02E26', green: '#5E7C16', brown: '#835432', blue: '#3C44AA', purple: '#8932B8', cyan: '#169C9C', light_gray: '#9D9D97', gray: '#474F52', pink: '#F38BAA', lime: '#80C71F', yellow: '#FED83D', light_blue: '#3AB3DA', magenta: '#C74EBD', orange: '#F9801D', white: '#F9FFFE' };
-    const bannerPatterns = { b: (ctx)=>{ctx.fillRect(0,0,20,40)}, bs:(ctx)=>{ctx.fillRect(0,34,20,6)}, ts:(ctx)=>{ctx.fillRect(0,0,20,6)}, ls:(ctx)=>{ctx.fillRect(0,0,6,40)}, rs:(ctx)=>{ctx.fillRect(14,0,6,40)}, cs:(ctx)=>{ctx.fillRect(7,0,6,40)}, ms:(ctx)=>{ctx.fillRect(0,17,20,6)}, dls:(ctx)=>{ctx.beginPath();ctx.moveTo(0,40);ctx.lineTo(20,0);ctx.lineTo(20,6);ctx.lineTo(6,40);ctx.fill()}, drs:(ctx)=>{ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(20,40);ctx.lineTo(14,40);ctx.lineTo(0,6);ctx.fill()}, cr:(ctx)=>{ctx.fillRect(0,14,20,12);ctx.fillRect(4,0,12,40)}, sc:(ctx)=>{ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(20,40);ctx.moveTo(0,40);ctx.lineTo(20,0);ctx.stroke()}, ld:(ctx)=>{ctx.beginPath();ctx.moveTo(0,40);ctx.lineTo(20,0);ctx.lineTo(0,0);ctx.fill()}, rd:(ctx)=>{ctx.beginPath();ctx.moveTo(20,40);ctx.lineTo(0,0);ctx.lineTo(20,0);ctx.fill()}, vh:(ctx)=>{ctx.fillRect(0,0,20,20)}, vhr:(ctx)=>{ctx.fillRect(0,20,20,20)}, hh:(ctx)=>{ctx.fillRect(0,0,10,40)}, hhr:(ctx)=>{ctx.fillRect(10,0,10,40)}, bo:(ctx,c)=>{ctx.lineWidth=4;ctx.strokeStyle=c;ctx.strokeRect(2,2,16,36)}, cbo:(ctx,c)=>{ctx.lineWidth=2;ctx.strokeStyle=c;ctx.strokeRect(1,1,18,38)}, bt:(ctx)=>{ctx.beginPath();ctx.moveTo(10,24);ctx.lineTo(0,34);ctx.lineTo(20,34);ctx.fill()}, tt:(ctx)=>{ctx.beginPath();ctx.moveTo(10,16);ctx.lineTo(0,6);ctx.lineTo(20,6);ctx.fill()}, bts:(ctx)=>{ctx.beginPath();ctx.moveTo(0,40);ctx.lineTo(10,30);ctx.lineTo(20,40);ctx.fill()}, tts:(ctx)=>{ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(10,10);ctx.lineTo(20,0);ctx.fill()}, cre:(ctx)=>{ctx.fillRect(4,4,12,12);ctx.fillRect(8,16,4,8);ctx.fillRect(4,24,4,4);ctx.fillRect(12,24,4,4)}, sku:(ctx)=>{ctx.fillRect(4,8,12,12);ctx.fillRect(8,4,4,4);ctx.fillRect(8,20,4,4)}, flo:(ctx)=>{ctx.beginPath();ctx.arc(10,10,4,0,2*Math.PI);ctx.fill();ctx.fillRect(8,0,4,20);ctx.fillRect(0,8,20,4)} };
+    const bannerPatterns = { b: (ctx) => { ctx.fillRect(0, 0, 20, 40) }, bs: (ctx) => { ctx.fillRect(0, 34, 20, 6) }, ts: (ctx) => { ctx.fillRect(0, 0, 20, 6) }, ls: (ctx) => { ctx.fillRect(0, 0, 6, 40) }, rs: (ctx) => { ctx.fillRect(14, 0, 6, 40) }, cs: (ctx) => { ctx.fillRect(7, 0, 6, 40) }, ms: (ctx) => { ctx.fillRect(0, 17, 20, 6) }, dls: (ctx) => { ctx.beginPath(); ctx.moveTo(0, 40); ctx.lineTo(20, 0); ctx.lineTo(20, 6); ctx.lineTo(6, 40); ctx.fill() }, drs: (ctx) => { ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(20, 40); ctx.lineTo(14, 40); ctx.lineTo(0, 6); ctx.fill() }, cr: (ctx) => { ctx.fillRect(0, 14, 20, 12); ctx.fillRect(4, 0, 12, 40) }, sc: (ctx) => { ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(20, 40); ctx.moveTo(0, 40); ctx.lineTo(20, 0); ctx.stroke() }, ld: (ctx) => { ctx.beginPath(); ctx.moveTo(0, 40); ctx.lineTo(20, 0); ctx.lineTo(0, 0); ctx.fill() }, rd: (ctx) => { ctx.beginPath(); ctx.moveTo(20, 40); ctx.lineTo(0, 0); ctx.lineTo(20, 0); ctx.fill() }, vh: (ctx) => { ctx.fillRect(0, 0, 20, 20) }, vhr: (ctx) => { ctx.fillRect(0, 20, 20, 20) }, hh: (ctx) => { ctx.fillRect(0, 0, 10, 40) }, hhr: (ctx) => { ctx.fillRect(10, 0, 10, 40) }, bo: (ctx, c) => { ctx.lineWidth = 4; ctx.strokeStyle = c; ctx.strokeRect(2, 2, 16, 36) }, cbo: (ctx, c) => { ctx.lineWidth = 2; ctx.strokeStyle = c; ctx.strokeRect(1, 1, 18, 38) }, bt: (ctx) => { ctx.beginPath(); ctx.moveTo(10, 24); ctx.lineTo(0, 34); ctx.lineTo(20, 34); ctx.fill() }, tt: (ctx) => { ctx.beginPath(); ctx.moveTo(10, 16); ctx.lineTo(0, 6); ctx.lineTo(20, 6); ctx.fill() }, bts: (ctx) => { ctx.beginPath(); ctx.moveTo(0, 40); ctx.lineTo(10, 30); ctx.lineTo(20, 40); ctx.fill() }, tts: (ctx) => { ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(10, 10); ctx.lineTo(20, 0); ctx.fill() }, cre: (ctx) => { ctx.fillRect(4, 4, 12, 12); ctx.fillRect(8, 16, 4, 8); ctx.fillRect(4, 24, 4, 4); ctx.fillRect(12, 24, 4, 4) }, sku: (ctx) => { ctx.fillRect(4, 8, 12, 12); ctx.fillRect(8, 4, 4, 4); ctx.fillRect(8, 20, 4, 4) }, flo: (ctx) => { ctx.beginPath(); ctx.arc(10, 10, 4, 0, 2 * Math.PI); ctx.fill(); ctx.fillRect(8, 0, 4, 20); ctx.fillRect(0, 8, 20, 4) } };
 
     function drawBanner(bannerJSON, canvas) {
         if (!bannerJSON || !canvas) return;
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('layer-players').addEventListener('change', (e) => {
             e.target.checked ? state.map.addLayer(state.layers.players) : state.map.removeLayer(state.layers.players);
         });
-        
+
         document.getElementById('layer-territories').addEventListener('change', (e) => {
             if (e.target.checked) {
                 state.map.addLayer(state.layers.countries);
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const z = Math.round(e.latlng.lat);
             document.getElementById('coords-text').textContent = `X: ${x}, Z: ${z}`;
         });
-        
+
         document.getElementById('coord-box').addEventListener('click', () => {
             const url = window.location.href;
             navigator.clipboard.writeText(url).then(() => showToast(t('toast_copied')));
@@ -302,12 +302,12 @@ document.addEventListener('DOMContentLoaded', () => {
         state.chunks.filter(c => c.dimension === 'overworld' && c.id > 0).forEach(c => chunks.set(`${c.x}_${c.z}`, c.id));
 
         const countryListEl = document.getElementById('country-list');
-        if(countryListEl) {
+        if (countryListEl) {
             countryListEl.innerHTML = '';
             const searchVal = document.getElementById('search-countries').value.toLowerCase();
             state.countries.filter(c => c.name.toLowerCase().includes(searchVal)).forEach(c => {
                 const li = document.createElement('li');
-                li.innerHTML = `<span style="width:12px;height:12px;border-radius:50%;background:${c.color||'#fff'};display:inline-block"></span> ${c.name}`;
+                li.innerHTML = `<span style="width:12px;height:12px;border-radius:50%;background:${c.color || '#fff'};display:inline-block"></span> ${c.name}`;
                 li.onclick = () => {
                     const chunk = state.chunks.find(chk => chk.id === c.id);
                     if (chunk) state.map.setView([chunk.z * 16, chunk.x * 16], -1);
@@ -328,9 +328,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (country) {
                 const peopleList = country.members ? country.members : t('none');
-                const allyList = country.alliance ? country.alliance : null;
-                const friendlyList = country.friendly ? country.friendly : null;
-                const enemyList = country.hostility ? country.hostility : null;
+                const allyList = country.alliance ? country.alliance.replace(/§./g, '') : null;
+                const friendlyList = country.friendly ? country.friendly.replace(/§./g, '') : null;
+                const enemyList = country.hostility ? country.hostility.replace(/§./g, '') : null;
 
                 const popup = `
                     <div class="country-popup">
@@ -354,12 +354,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="country-stats">
                             <div class="stat-item"><span class="stat-label">${t('label_id')}</span><span class="stat-value">${country.id}</span></div>
                             <div class="stat-item"><span class="stat-label">${t('label_level')}</span><span class="stat-value">${country.lv || 0}</span></div>
-                            <div class="stat-item"><span class="stat-label">${t('label_king')}</span><span class="stat-value">${country.ownername || 'N/A'}</span></div>
+                            <div class="stat-item"><span class="stat-label">${country.ownername}</span><span class="stat-value">${country.owner || 'N/A'}</span></div>
                         </div>
 
                         <div class="country-relations">
                             <div class="relation-group">
-                                <span class="relation-label">${t('label_citizens')}</span>
+                                <span class="relation-label">${country.membersname}</span>
                                 <div class="relation-list">${peopleList}</div>
                             </div>
                             ${allyList ? `
@@ -398,11 +398,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const opts = { color: color, weight: 2, pane: 'bordersPane', opacity: 0.8, interactive: false };
-            const n = chunks.get(`${c.x}_${c.z-1}`), s = chunks.get(`${c.x}_${c.z+1}`), w = chunks.get(`${c.x-1}_${c.z}`), e = chunks.get(`${c.x+1}_${c.z}`);
-            if(n!==c.id) L.polyline([[c.z*16,c.x*16], [c.z*16,(c.x+1)*16]], opts).addTo(bg);
-            if(s!==c.id) L.polyline([[(c.z+1)*16,c.x*16], [(c.z+1)*16,(c.x+1)*16]], opts).addTo(bg);
-            if(w!==c.id) L.polyline([[c.z*16,c.x*16], [(c.z+1)*16,c.x*16]], opts).addTo(bg);
-            if(e!==c.id) L.polyline([[c.z*16,(c.x+1)*16], [(c.z+1)*16,(c.x+1)*16]], opts).addTo(bg);
+            const n = chunks.get(`${c.x}_${c.z - 1}`), s = chunks.get(`${c.x}_${c.z + 1}`), w = chunks.get(`${c.x - 1}_${c.z}`), e = chunks.get(`${c.x + 1}_${c.z}`);
+            if (n !== c.id) L.polyline([[c.z * 16, c.x * 16], [c.z * 16, (c.x + 1) * 16]], opts).addTo(bg);
+            if (s !== c.id) L.polyline([[(c.z + 1) * 16, c.x * 16], [(c.z + 1) * 16, (c.x + 1) * 16]], opts).addTo(bg);
+            if (w !== c.id) L.polyline([[c.z * 16, c.x * 16], [(c.z + 1) * 16, c.x * 16]], opts).addTo(bg);
+            if (e !== c.id) L.polyline([[c.z * 16, (c.x + 1) * 16], [(c.z + 1) * 16, (c.x + 1) * 16]], opts).addTo(bg);
         });
     }
 
@@ -412,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!res.ok) return;
             const players = await res.json();
             state.players = players;
-            
+
             const searchVal = document.getElementById('search-players').value.toLowerCase();
             const online = state.players.filter(p => {
                 if (!p.point) return false;
@@ -426,9 +426,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const name = p.name;
                 currentActiveNames.add(name);
                 const latlng = [p.point.y, p.point.x];
-                let skinUrl = `https://cravatar.eu/helmavatar/${name}/64.png`;
+                let skinUrl = `https://cravatar.eu/helmavatar/${name.replace(/\s+/g, '_')}/64.png`;
                 if (p.skin) skinUrl = p.skin;
-                
+
                 const popupContent = `
                     <div class="player-popup">
                         <b>${p.name}</b>
@@ -468,11 +468,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const listEl = document.getElementById('player-list');
-            if(listEl) {
+            if (listEl) {
                 listEl.innerHTML = '';
                 online.forEach(p => {
                     const li = document.createElement('li');
-                    let listSkinUrl = `https://cravatar.eu/helmavatar/${p.name}/32.png`;
+                    let listSkinUrl = `https://cravatar.eu/helmavatar/${p.name.replace(/\s+/g, '_')}/32.png`;
                     if (p.skin) listSkinUrl = p.skin;
                     li.innerHTML = `<img src="${listSkinUrl}" class="player-head"> ${p.name}`;
                     if (p.point.invisibility) {
@@ -487,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-        } catch (e) {}
+        } catch (e) { }
     }
 
     async function loadData() {
@@ -496,19 +496,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetchWithLog('/api/map/players'),
                 fetchWithLog('/api/initial-data')
             ]);
-            
-            if(pRes.ok) state.players = await pRes.json();
-            if(iRes.ok) {
+
+            if (pRes.ok) state.players = await pRes.json();
+            if (iRes.ok) {
                 const data = await iRes.json();
                 state.countries = data.countries || [];
                 state.chunks = data.chunks || [];
             }
-            
+
             updateUIText();
-            
+
             document.getElementById('loading-screen').style.opacity = '0';
             setTimeout(() => document.getElementById('loading-screen').style.display = 'none', 500);
-        } catch(e) { console.error(e); }
+        } catch (e) { console.error(e); }
     }
 
     initMap();
